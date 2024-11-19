@@ -11,7 +11,7 @@ const app = express();
 
 
 
-app.use(bodyParser.urlencoded({ extended: false })); //app.use=> mean that bodyparser use in whole project and extended mean it will contain nested json or not
+app.use(bodyParser.urlencoded({ extended: true })); //app.use=> mean that bodyparser use in whole project and extended mean it will contain nested json or not
 app.use(bodyParser.json());
 // mongodb+srv://gujjarji7838:gujjar@38@cluster2.5rm9k.mongodb.net/
 // try {
