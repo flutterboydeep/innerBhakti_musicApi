@@ -28,7 +28,12 @@ mongoose.connect("mongodb+srv://deep:deep123@cluster0.bwoiy.mongodb.net/music_db
     // app.use(express.json());
     // app.use(cors());
     app.use(cors());
-    const fullPath = path.join(__dirname, 'uploads');
+    const fullPath = path.join(__dirname, 'uploads', {
+        setHeaders: (res) => {  // this is use for convert to text/html; charset=utf-8  to audio/mpeg 
+            res.setHeaders('Content-Type', 'audio/mpeg');
+
+        }
+    });
     app.use('/uploads', express.static(fullPath));
 
 
