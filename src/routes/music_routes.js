@@ -10,7 +10,9 @@ const fs = require('fs');
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}_${file.originalname}`);
+        const fileNameWithSpace = file.originalname;
+        const fileNameWithoutSpace = fileNameWithSpace.replaceAll(" ", "_");
+        cb(null, `${Date.now()}_${fileNameWithoutSpace}`);
     },
 });
 const upload = multer({
@@ -33,7 +35,9 @@ router.post('/upload', upload, async (req, res) => {
         }
 
         const audioFile = req.files['audioFiles'][0];
-        const audioFiles = `${req.protocol}://${req.get('host')}/uploads/${audioFile.filename}`;
+        const fileNameWithSpace = audioFile.filename;
+        const fileNameWithoutSpace = fileNameWithSpace.replaceAll(" ", "_");
+        const audioFiles = `${req.protocol}://${req.get('host')}/uploads/${fileNameWithoutSpace}`;
 
 
         // Validate input
@@ -43,7 +47,8 @@ router.post('/upload', upload, async (req, res) => {
 
 
         if (!playlist) {
-            const playlistImage = req.files['playlistImage'][0]
+            const playlistImageWithouformat = req.files['playlistImage'][0];
+            const playlistImage = (playlistImageWithouformat.filename).replaceAll(" ", "-");
             // If playlist doesn't exist, create a new one
             if (playlistTitle == null) {
                 console.log(playlistTitle);
@@ -56,12 +61,12 @@ router.post('/upload', upload, async (req, res) => {
             }
 
             else {
-
+                fileNameWithoutSpace
 
                 playlist = new Music({
 
                     playlistTitle,
-                    playlistImage: `${req.protocol}://${req.get('host')}/uploads/${playlistImage.filename}`, // Add a default image if not provided
+                    playlistImage: `${req.protocol}://${req.get('host')}/uploads/${playlistImage}`, // Add a default image if not provided
                     music: [], // Initialize the music array
                 });
             }
